@@ -31,7 +31,11 @@ df = df.dropna(subset=['bnp', 'readmitted_30d'])
 
 exclude_cols = ['patient_id', 'readmitted_30d', 'bnp']
 num_cols = [c for c in df.select_dtypes(include=[np.number]).columns if c not in exclude_cols]
-cat_cols = df.select_dtypes(include=['object', 'category']).columns.tolist()
+# Bug fix: cat_cols previously kept patient_id (and any categorical target
+# columns) instead of excluding them like num_cols does above. If patient_id
+# is stored as a string ID, it was being one-hot encoded and fed into the
+# models as a "feature" — a data leakage / meaningless-feature bug.
+cat_cols = [c for c in df.select_dtypes(include=['object', 'category']).columns if c not in exclude_cols]
 
 # 1. Missingness Diagnostics
 fig, axes = plt.subplots(1, 2, figsize=(16, 5))
@@ -127,6 +131,10 @@ res_df = pd.DataFrame(metrics)
 print(res_df.groupby(['Task', 'Metric'])['Value'].agg(['mean', 'std']).round(4))
 
 # 3. Model Analytics Dashboard
+# NOTE: yr_te/r_pred/yc_te/c_pred are intentionally reused here from the
+# LAST iteration (i=9) of the 10-run loop above — this plots one
+# representative run, not an aggregate. Kept as-is since it's a deliberate
+# choice, but flagging so it's not mistaken for an accident.
 fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 
 axes[0].scatter(yr_te, r_pred, alpha=0.5, edgecolors='w', color='#2ca02c')
