@@ -1,5 +1,5 @@
 #%%
-# --- Module 1: Data Ingestion & Quality Assurance ---
+
 import os
 import warnings
 import pandas as pd
@@ -68,7 +68,6 @@ df = pd.concat([df_train, df_test]).sort_index()
 print(f"Pipeline Stage 1 complete. Data shape: {df.shape}")
 
 
-# --- Module 2: Preprocessing Benchmark & Baseline Modeling ---
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestClassifier
@@ -147,7 +146,6 @@ plt.tight_layout()
 plt.show()
 
 
-# --- Module 3: Advanced Feature Selection Strategies ---
 from sklearn.feature_selection import SelectKBest, f_regression, f_classif, RFE
 from sklearn.linear_model import LassoCV, LogisticRegressionCV
 from sklearn.svm import LinearSVR
@@ -220,7 +218,6 @@ plt.tight_layout()
 plt.show()
 
 
-# --- Module 4: Dimensionality Reduction & Manifold Learning ---
 import tensorflow as tf
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
@@ -292,7 +289,6 @@ plt.tight_layout()
 plt.show()
 
 
-# --- Module 5: Feature Importance & Model Persistence ---
 from sklearn.inspection import permutation_importance
 import joblib
 
